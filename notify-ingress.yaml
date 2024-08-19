@@ -1,0 +1,15 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: notify-service-ingress-secure
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Path(`/notify/{[0aA-zZ9]+}`) || Path(`/notify/{[aA0-zZ9]+}/{[aA0-zZ9]+}`)
+    kind: Rule
+    services:
+    - name: notify-service-mysql
+      port: 80
+  tls:
+    secretName: phis-fedgen-net-tls
